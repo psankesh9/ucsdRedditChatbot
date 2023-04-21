@@ -47,7 +47,7 @@ class CharDataset(Dataset):
     @staticmethod
     def get_default_config():
         C = CN()
-        C.block_size = 128
+        C.block_size = 128 ### Number of chracters you are predicting at a time. 
         return C
 
     def __init__(self, config, data):
@@ -57,8 +57,8 @@ class CharDataset(Dataset):
         data_size, vocab_size = len(data), len(chars)
         print('data has %d characters, %d unique.' % (data_size, vocab_size))
 
-        self.stoi = { ch:i for i,ch in enumerate(chars) }
-        self.itos = { i:ch for i,ch in enumerate(chars) }
+        self.stoi = { ch:i for i,ch in enumerate(chars) } ### Dictionary comprehension that counts
+        self.itos = { i:ch for i,ch in enumerate(chars) } 
         self.vocab_size = vocab_size
         self.data = data
 
@@ -117,7 +117,7 @@ if __name__ == '__main__':
                 # sample from the model...
                 context = "O God, O God!"
                 x = torch.tensor([train_dataset.stoi[s] for s in context], dtype=torch.long)[None,...].to(trainer.device)
-                y = model.generate(x, 500, temperature=1.0, do_sample=True, top_k=10)[0]
+                y = model.generate(x, 500, temperature=1.0, do_sample=True, top_k=10)[0] ###temperature is a degree of randomness.
                 completion = ''.join([train_dataset.itos[int(i)] for i in y])
                 print(completion)
             # save the latest model
